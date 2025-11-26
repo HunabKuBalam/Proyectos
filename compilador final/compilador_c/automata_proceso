@@ -1,0 +1,71 @@
+// Autómata del proceso
+digraph {
+	fontname=Arial fontsize=12 rankdir=LR
+	node [fontname=Courier shape=circle]
+	edge [fontname=Courier]
+	start
+	program
+	cond
+	expr
+	decl
+	block
+	io
+	assign
+	error
+	factor
+	stmt
+	loop
+	term
+	start [shape=doublecircle]
+	decl -> decl [label=ID]
+	program -> decl [label="type id_list ;"]
+	program -> decl [label="unit->decl"]
+	start -> program [label=unit]
+	decl -> decl [label=ID]
+	program -> decl [label="type id_list ;"]
+	program -> decl [label="unit->decl"]
+	start -> program [label="program+unit"]
+	term -> factor [label=NUM]
+	expr -> term [label=factor]
+	assign -> expr [label=term]
+	stmt -> assign [label="x = expr"]
+	program -> stmt [label=assign]
+	program -> stmt [label="unit->stmt"]
+	start -> program [label="program+unit"]
+	term -> factor [label=ID]
+	expr -> term [label=factor]
+	assign -> expr [label=term]
+	term -> factor [label=NUM]
+	expr -> term [label=factor]
+	expr -> expr [label="+"]
+	stmt -> assign [label="y = expr"]
+	program -> stmt [label=assign]
+	program -> stmt [label="unit->stmt"]
+	start -> program [label="program+unit"]
+	term -> factor [label=ID]
+	expr -> term [label=factor]
+	assign -> expr [label=term]
+	term -> factor [label=NUM]
+	expr -> term [label=factor]
+	assign -> expr [label=term]
+	expr -> expr [label=">"]
+	io -> io [label="CAD , ID"]
+	stmt -> io [label="PRINTF ( args )"]
+	program -> stmt [label=printf]
+	program -> stmt [label="unit->stmt"]
+	start -> program [label=unit]
+	cond -> block [label="{ program }"]
+	loop -> block [label="{ program }"]
+	io -> io [label="CAD , & ID"]
+	stmt -> io [label="SCANF ( args )"]
+	program -> stmt [label=scanf]
+	program -> stmt [label="unit->stmt"]
+	start -> program [label=unit]
+	cond -> block [label="{ program }"]
+	loop -> block [label="{ program }"]
+	stmt -> cond [label="IF ( expr ) block ELSE block"]
+	program -> stmt [label=ifelse]
+	program -> stmt [label="unit->stmt"]
+	start -> program [label="program+unit"]
+	error -> error [label="Error sintáctico inesperado"]
+}
